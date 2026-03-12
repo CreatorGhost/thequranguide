@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# Build
+tsconfig.tsbuildinfo
+
+# Environment
+.env
+.env.local
+.env.*.local
+!.env.example
+!backend/.env.example
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Scripts output (generated data, large JSON)
+scripts/output/
+
+# Misc
+file
+Quran_Companion_Spec.md
