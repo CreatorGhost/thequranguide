@@ -57,7 +57,7 @@ export function SignupModal() {
           Create Account
         </h2>
         <p style={{ fontSize: "13px", color: "var(--text-muted, #8A7D5E)", marginBottom: "24px" }}>
-          Join theQuranGuide to track your reading journey
+          Join The Quran Guide to track your reading journey
         </p>
 
         <form onSubmit={handleSubmit}>

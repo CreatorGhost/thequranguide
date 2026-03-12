@@ -290,8 +290,9 @@ export default function Home() {
                 <circle cx="12" cy="12" r="4" stroke="#B8983F" strokeWidth="0.5" opacity="0.35"/>
                 <path d="M12 2L12 4M12 20L12 22M2 12L4 12M20 12L22 12M4.93 4.93L6.34 6.34M17.66 17.66L19.07 19.07M4.93 19.07L6.34 17.66M17.66 6.34L19.07 4.93" stroke="#B8983F" strokeWidth="0.5" opacity="0.3"/>
               </svg>
-              <a href="/" className="tqg-heading text-lg" style={{ color: '#B8983F', fontWeight: 500, textDecoration: 'none' }}>
-                theQuranGuide
+              <a href="/" className="flex items-center gap-2" style={{ textDecoration: 'none' }}>
+                <span className="tqg-heading text-lg" style={{ color: '#B8983F', fontWeight: 500 }}>The Quran Guide</span>
+                <span className="tqg-arabic text-sm hidden sm:inline" style={{ color: 'rgba(184,152,63,0.5)', lineHeight: 1 }}>دليل القرآن</span>
               </a>
             </div>
 
@@ -648,7 +649,8 @@ export default function Home() {
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
               <div>
-                <span className="tqg-heading text-lg" style={{ color: '#B8983F', fontWeight: 500 }}>theQuranGuide</span>
+                <span className="tqg-heading text-lg" style={{ color: '#B8983F', fontWeight: 500 }}>The Quran Guide</span>
+                <span className="tqg-arabic text-sm ml-2" style={{ color: 'rgba(184,152,63,0.4)' }}>دليل القرآن</span>
                 <p className="text-xs mt-3 leading-relaxed" style={{ color: '#8a8078' }}>
                   Precision-built for the sacred text.
                 </p>
@@ -687,7 +689,7 @@ export default function Home() {
             </div>
             <div className="tqg-line-subtle mb-6" />
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-              <p className="text-xs" style={{ color: '#8a8078' }}>&copy; 2026 theQuranGuide</p>
+              <p className="text-xs" style={{ color: '#8a8078' }}>&copy; 2026 The Quran Guide</p>
               <p className="tqg-arabic text-sm" style={{ color: 'rgba(184,152,63,0.25)' }}>
                 رَبَّنَا تَقَبَّلْ مِنَّا إِنَّكَ أَنتَ ٱلسَّمِيعُ ٱلْعَلِيمُ
               </p>

@@ -482,7 +482,8 @@ export default function ReadPage() {
             <div className="flex items-center gap-3">
               <a href="/" className="flex items-center gap-2">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M15 19l-7-7 7-7" /></svg>
-                <span style={{ fontFamily: "'EB Garamond', serif", color: "var(--accent)", fontSize: "17px" }}>theQuranGuide</span>
+                <span style={{ fontFamily: "'EB Garamond', serif", color: "var(--accent)", fontSize: "17px" }}>The Quran Guide</span>
+                <span className="hidden sm:inline" style={{ color: 'rgba(184,152,63,0.5)', fontFamily: "'Amiri', serif", fontSize: "13px", direction: 'rtl', lineHeight: 1 }}>دليل القرآن</span>
               </a>
 
               {/* Surah sidebar toggle */}

@@ -4,7 +4,7 @@ import "../styles/theme.css";
 import { ThemeWrapper } from "./theme-wrapper";
 
 export const metadata: Metadata = {
-  title: "theQuranGuide — Your AI-Powered Quran Companion",
+  title: "The Quran Guide — Your AI-Powered Quran Companion",
   description: "Read, understand, and live the Holy Quran with AI-powered tafsir, word-by-word translation, and audio recitation.",
   icons: {
     icon: "/favicon.svg",

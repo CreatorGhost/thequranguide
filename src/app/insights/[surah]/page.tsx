@@ -257,7 +257,10 @@ export default function SurahInsightPage() {
                 <circle cx="12" cy="12" r="4" stroke="#B8983F" strokeWidth="0.5" opacity="0.35"/>
                 <path d="M12 2L12 4M12 20L12 22M2 12L4 12M20 12L22 12M4.93 4.93L6.34 6.34M17.66 17.66L19.07 19.07M4.93 19.07L6.34 17.66M17.66 6.34L19.07 4.93" stroke="#B8983F" strokeWidth="0.5" opacity="0.3"/>
               </svg>
-              <a href="/" className="sid-h text-lg" style={{ color: '#B8983F', fontWeight: 500, textDecoration: 'none' }}>theQuranGuide</a>
+              <a href="/" className="flex items-center gap-2" style={{ textDecoration: 'none' }}>
+                <span className="sid-h text-lg" style={{ color: '#B8983F', fontWeight: 500 }}>The Quran Guide</span>
+                <span className="hidden sm:inline" style={{ color: 'rgba(184,152,63,0.5)', fontFamily: "'Amiri', serif", fontSize: '14px', direction: 'rtl', lineHeight: 1 }}>دليل القرآن</span>
+              </a>
             </div>
             <div className="hidden md:flex items-center gap-10">
               {[
@@ -558,7 +561,7 @@ export default function SurahInsightPage() {
         {/* ─── FOOTER ─── */}
         <footer className="px-6 py-10" style={{ borderTop: '1px solid rgba(184,152,63,0.06)' }}>
           <div className="max-w-3xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-xs" style={{ color: '#8a8078' }}>&copy; 2026 theQuranGuide</p>
+            <p className="text-xs" style={{ color: '#8a8078' }}>&copy; 2026 The Quran Guide</p>
             <p className="sid-ar text-sm" style={{ color: 'rgba(184,152,63,0.25)' }}>رَبَّنَا تَقَبَّلْ مِنَّا إِنَّكَ أَنتَ ٱلسَّمِيعُ ٱلْعَلِيمُ</p>
           </div>
         </footer>

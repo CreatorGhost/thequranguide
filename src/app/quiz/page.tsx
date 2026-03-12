@@ -202,8 +202,9 @@ export default function QuizPage() {
                 <circle cx="12" cy="12" r="8" stroke="#B8983F" strokeWidth="0.7" opacity="0.5"/>
                 <circle cx="12" cy="12" r="4" stroke="#B8983F" strokeWidth="0.5" opacity="0.35"/>
               </svg>
-              <a href="/" style={{ color: "#D4B44A", textDecoration: "none", fontSize: "18px", fontFamily: "'EB Garamond', serif", fontWeight: 500 }}>
-                theQuranGuide
+              <a href="/" className="flex items-center gap-2" style={{ textDecoration: "none" }}>
+                <span style={{ color: "#D4B44A", fontSize: "18px", fontFamily: "'EB Garamond', serif", fontWeight: 500 }}>The Quran Guide</span>
+                <span className="hidden sm:inline" style={{ color: 'rgba(184,152,63,0.5)', fontFamily: "'Amiri', serif", fontSize: "14px", direction: 'rtl', lineHeight: 1 }}>دليل القرآن</span>
               </a>
             </div>
             <div className="hidden md:flex items-center gap-10">
@@ -392,7 +393,7 @@ export default function QuizPage() {
         <footer style={{ padding: "40px 24px", borderTop: "1px solid rgba(184,152,63,0.06)", position: "relative", zIndex: 10 }}>
           <div className="max-w-6xl mx-auto">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-              <p style={{ fontSize: "12px", color: "#8a8078" }}>&copy; 2026 theQuranGuide</p>
+              <p style={{ fontSize: "12px", color: "#8a8078" }}>&copy; 2026 The Quran Guide</p>
               <p style={{ fontFamily: "'PDMS Saleem QuranFont', 'Amiri', serif", fontSize: "14px", color: "rgba(184,152,63,0.25)", direction: "rtl" }}>
                 رَبِّ زِدْنِى عِلْمًا
               </p>
