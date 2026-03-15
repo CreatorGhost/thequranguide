@@ -5,7 +5,7 @@
  * Usage: npx tsx scripts/fetch-context.ts 1 18 93
  */
 
-import { writeFileSync, mkdirSync } from "fs";
+import { writeFileSync, mkdirSync, existsSync } from "fs";
 import { join } from "path";
 
 const CDN = "https://cdn.jsdelivr.net/gh/spa5k/tafsir_api@main/tafsir";
@@ -94,10 +94,33 @@ async function fetchSurahContext(surahNum: number): Promise<ContextPacket> {
   };
 }
 
+// ─── Concurrency limiter ───
+async function pLimit(concurrency: number, tasks: (() => Promise<void>)[]) {
+  const executing = new Set<Promise<void>>();
+  for (const task of tasks) {
+    const p: Promise<void> = task().then(() => { executing.delete(p); });
+    executing.add(p);
+    if (executing.size >= concurrency) {
+      await Promise.race(executing);
+    }
+  }
+  await Promise.all(executing);
+}
+
 // ─── Main ───
-const args = process.argv.slice(2).map(Number).filter((n) => n >= 1 && n <= 114);
-if (args.length === 0) {
-  console.log("Usage: npx tsx scripts/fetch-context.ts 1 18 93");
+const rawArgs = process.argv.slice(2);
+const hasAll = rawArgs.includes("--all");
+const hasForce = rawArgs.includes("--force");
+const numericArgs = rawArgs.filter((a) => !a.startsWith("--")).map(Number).filter((n) => n >= 1 && n <= 114);
+
+const surahNums = hasAll ? Array.from({ length: 114 }, (_, i) => i + 1) : numericArgs;
+
+if (surahNums.length === 0) {
+  console.log("Usage: npx tsx scripts/fetch-context.ts [--all] [--force] 1 18 93");
+  console.log("");
+  console.log("Flags:");
+  console.log("  --all    Fetch context for all 114 surahs");
+  console.log("  --force  Re-fetch even if context file already exists");
   process.exit(1);
 }
 
@@ -105,15 +128,30 @@ const outDir = join(new URL(".", import.meta.url).pathname, "output");
 mkdirSync(outDir, { recursive: true });
 
 (async () => {
-  for (const surahNum of args) {
+  let fetched = 0;
+  let skipped = 0;
+
+  const tasks = surahNums.map((surahNum) => async () => {
+    const path = join(outDir, `context-${surahNum}.json`);
+
+    // Skip if already exists and --force not set
+    if (!hasForce && existsSync(path)) {
+      skipped++;
+      return;
+    }
+
     try {
       const ctx = await fetchSurahContext(surahNum);
-      const path = join(outDir, `context-${surahNum}.json`);
       writeFileSync(path, JSON.stringify(ctx, null, 2));
-      console.log(`   💾 Saved to ${path}`);
+      fetched++;
+      console.log(`   [${fetched + skipped}/${surahNums.length}] Saved context-${surahNum}.json`);
     } catch (err) {
-      console.error(`   ❌ Failed for surah ${surahNum}:`, err);
+      console.error(`   Failed for surah ${surahNum}:`, err);
     }
-  }
-  console.log("\n✅ Done fetching context.");
+  });
+
+  // Run with concurrency limit of 5
+  await pLimit(5, tasks);
+
+  console.log(`\nDone. Fetched: ${fetched}, Skipped: ${skipped}`);
 })();

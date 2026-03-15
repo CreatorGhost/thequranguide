@@ -27,11 +27,24 @@ export function JuzDropdown({ juzData, surahs, currentJuz, onNavigate }: JuzDrop
   return (
     <div ref={ref} style={{ position: "relative" }}>
       <button
-        className="vd-badge"
         onClick={() => setOpen(!open)}
-        style={{ cursor: "pointer", background: "none", border: "1px solid var(--border-medium, rgba(212,180,74,0.15))", color: "var(--text-muted)", padding: "2px 10px", borderRadius: "20px", fontSize: "11px", fontFamily: "'EB Garamond', serif" }}
+        style={{
+          cursor: "pointer",
+          background: "none",
+          border: "none",
+          color: "var(--text-muted)",
+          padding: "2px 6px",
+          fontSize: "13px",
+          fontFamily: "'EB Garamond', serif",
+          transition: "color 0.15s",
+          display: "flex",
+          alignItems: "center",
+          gap: "3px",
+        }}
+        onMouseEnter={(e) => { e.currentTarget.style.color = "var(--accent)"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-muted)"; }}
       >
-        Juz {currentJuz} <span style={{ marginLeft: "4px", fontSize: "8px" }}>&#9662;</span>
+        Juz {currentJuz} <span style={{ fontSize: "9px", marginTop: "1px" }}>&#9662;</span>
       </button>
 
       {open && (

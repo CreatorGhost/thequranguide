@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { PageLayout } from "@/components/layout/PageLayout";
+import Link from "next/link";
 
 /* ─── Dua Data ─── */
 interface Dua {
@@ -220,132 +222,13 @@ const CATEGORIES: Category[] = [
 ];
 
 export default function DuaPage() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   const activeCat = CATEGORIES.find((c) => c.id === activeCategory);
 
   return (
-    <>
+    <PageLayout currentPath="/dua" footerVariant="minimal">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500&family=Amiri:wght@400;700&display=swap');
-
-        @font-face {
-          font-family: 'PDMS Saleem QuranFont';
-          src: url('/fonts/pdms-saleem-quranfont.woff') format('woff'),
-               url('/fonts/pdms-saleem-quranfont.ttf') format('truetype');
-          font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
-
-        .dua-page {
-          --gold: #B8983F;
-          --gold-light: #D4B85A;
-          --gold-deep: #8B6914;
-          --gold-pale: #E8D5A0;
-          --base: #0d0b08;
-          --surface: #131110;
-          --surface2: #1a1714;
-          --text: #e5e5e5;
-          --text-muted: #8a8078;
-          --border: rgba(184,152,63,0.12);
-          --border-subtle: rgba(255,255,255,0.06);
-          background: var(--base);
-          color: var(--text);
-          font-family: 'Inter', -apple-system, sans-serif;
-          font-weight: 400;
-          overflow-x: hidden;
-          -webkit-font-smoothing: antialiased;
-          min-height: 100vh;
-        }
-
-        .dua-heading { font-family: 'EB Garamond', serif; }
-        .dua-arabic {
-          font-family: 'PDMS Saleem QuranFont', 'Amiri', serif;
-          direction: rtl;
-          line-height: 2.2;
-        }
-
-        .dua-gold-shimmer {
-          background: linear-gradient(135deg, #8B6914 10%, #B8983F 35%, #D4B85A 50%, #E8D5A0 55%, #D4B85A 65%, #B8983F 80%, #8B6914 100%);
-          background-size: 200% 200%;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          animation: dua-shimmer 6s ease-in-out infinite;
-        }
-        @keyframes dua-shimmer {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-        }
-
-        .dua-gold-gradient {
-          background: linear-gradient(135deg, #8B6914 10%, #B8983F 40%, #D4B85A 60%, #B8983F 90%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-
-        .dua-glow {
-          position: fixed;
-          top: 50%; left: 50%;
-          transform: translate(-50%, -50%);
-          width: 900px; height: 900px;
-          border-radius: 50%;
-          background: radial-gradient(circle, rgba(184,152,63,0.09) 0%, rgba(139,105,20,0.04) 30%, rgba(184,152,63,0.015) 50%, transparent 70%);
-          pointer-events: none; z-index: 0;
-        }
-
-        .dua-nav {
-          background: rgba(13,11,8,0.92);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-        }
-
-        .dua-line-subtle { height: 1px; background: rgba(184,152,63,0.06); }
-
-        .dua-divider {
-          display: flex; align-items: center; justify-content: center; gap: 16px;
-        }
-        .dua-divider::before, .dua-divider::after {
-          content: ''; height: 1px; flex: 1;
-          background: linear-gradient(90deg, transparent, rgba(184,152,63,0.18));
-        }
-        .dua-divider::after {
-          background: linear-gradient(90deg, rgba(184,152,63,0.18), transparent);
-        }
-
-        .dua-btn-filled {
-          background: linear-gradient(135deg, #B8983F, #9A7B2F);
-          color: #0d0b08;
-          font-family: 'Inter', sans-serif;
-          font-weight: 600;
-          letter-spacing: 0.04em;
-          transition: all 0.2s ease-out;
-          border: none;
-          cursor: pointer;
-        }
-        .dua-btn-filled:hover {
-          box-shadow: 0 0 24px rgba(184,152,63,0.25);
-          transform: translateY(-1px);
-        }
-
-        .dua-btn-ghost {
-          border: 1px solid rgba(184,152,63,0.35);
-          color: var(--gold);
-          font-family: 'Inter', sans-serif;
-          font-weight: 500;
-          letter-spacing: 0.04em;
-          transition: all 0.2s ease-out;
-          background: none;
-          cursor: pointer;
-        }
-        .dua-btn-ghost:hover {
-          background: rgba(184,152,63,0.08);
-          border-color: rgba(184,152,63,0.55);
-        }
-
         .dua-category-card {
           background: var(--surface);
           border: 1px solid var(--border-subtle);
@@ -388,34 +271,6 @@ export default function DuaPage() {
           background: rgba(184,152,63,0.08);
         }
 
-        .dua-card {
-          background: var(--surface);
-          border: 1px solid var(--border-subtle);
-          border-radius: 16px;
-          padding: 32px;
-          position: relative;
-          transition: all 0.2s ease-out;
-        }
-        .dua-card:hover {
-          border-color: rgba(184,152,63,0.15);
-        }
-
-        .dua-ornamental { position: relative; }
-        .dua-ornamental::before, .dua-ornamental::after {
-          content: '';
-          position: absolute;
-          width: 48px; height: 48px;
-          border-color: rgba(184,152,63,0.18);
-          border-style: solid;
-          transition: border-color 0.3s ease;
-        }
-        .dua-ornamental::before { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
-        .dua-ornamental::after { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
-        .dua-card:hover.dua-ornamental::before,
-        .dua-card:hover.dua-ornamental::after {
-          border-color: rgba(184,152,63,0.32);
-        }
-
         .dua-count-badge {
           display: inline-flex;
           align-items: center;
@@ -428,15 +283,6 @@ export default function DuaPage() {
           color: rgba(184,152,63,0.5);
         }
 
-        .dua-noise::after {
-          content: '';
-          position: fixed; inset: 0;
-          opacity: 0.025; pointer-events: none; z-index: 9999;
-          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-          background-repeat: repeat;
-          background-size: 256px 256px;
-        }
-
         @keyframes dua-fadeIn {
           from { opacity: 0; transform: translateY(12px); }
           to { opacity: 1; transform: translateY(0); }
@@ -446,238 +292,148 @@ export default function DuaPage() {
         }
       `}</style>
 
-      <div className="dua-page dua-noise">
-        <div className="dua-glow" />
+      {/* Hero */}
+      <section className="pt-32 pb-12 px-6 text-center relative z-10">
+        <div className="tqg-divider max-w-sm mx-auto mb-6">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <rect x="2" y="2" width="8" height="8" transform="rotate(45 6 6)" stroke="#B8983F" strokeWidth="0.5" opacity="0.3"/>
+          </svg>
+        </div>
 
-        {/* ═══ NAVIGATION ═══ */}
-        <nav className="dua-nav fixed top-0 left-0 right-0 z-50">
-          <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <div className="flex items-center gap-2.5">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="8" stroke="#B8983F" strokeWidth="0.7" opacity="0.5"/>
-                <circle cx="12" cy="12" r="4" stroke="#B8983F" strokeWidth="0.5" opacity="0.35"/>
-                <path d="M12 2L12 4M12 20L12 22M2 12L4 12M20 12L22 12M4.93 4.93L6.34 6.34M17.66 17.66L19.07 19.07M4.93 19.07L6.34 17.66M17.66 6.34L19.07 4.93" stroke="#B8983F" strokeWidth="0.5" opacity="0.3"/>
-              </svg>
-              <a href="/" className="flex items-center gap-2" style={{ textDecoration: 'none' }}>
-                <span className="dua-heading text-lg" style={{ color: '#B8983F', fontWeight: 500 }}>The Quran Guide</span>
-                <span className="text-sm hidden sm:inline" style={{ color: 'rgba(184,152,63,0.5)', fontFamily: "'Amiri', serif", direction: 'rtl', lineHeight: 1 }}>دليل القرآن</span>
-              </a>
-            </div>
+        <h1 className="tqg-heading tqg-gold-shimmer text-5xl md:text-7xl mb-4" style={{ fontWeight: 400 }}>
+          Quranic Duas
+        </h1>
+        <p className="text-sm md:text-base max-w-lg mx-auto mb-3" style={{ color: '#8a8078' }}>
+          Beautiful supplications from the Holy Quran, organized by theme.
+        </p>
+        <p className="tqg-arabic text-lg mb-6" style={{ color: 'rgba(184,152,63,0.4)' }}>
+          وَقَالَ رَبُّكُمُ ٱدْعُونِىٓ أَسْتَجِبْ لَكُمْ
+        </p>
+        <p className="tqg-heading text-sm mb-8" style={{ color: '#8a8078', fontStyle: 'italic' }}>
+          &ldquo;And your Lord says, Call upon Me; I will respond to you.&rdquo; &mdash; Ghafir 40:60
+        </p>
+        <div className="tqg-divider max-w-xs mx-auto">
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+            <rect x="1" y="1" width="6" height="6" transform="rotate(45 4 4)" stroke="#B8983F" strokeWidth="0.5" opacity="0.25"/>
+          </svg>
+        </div>
+      </section>
 
-            <div className="hidden md:flex items-center gap-10">
-              {[
-                { label: 'Home', href: '/' },
-                { label: 'Read', href: '/read' },
-                { label: 'Insights', href: '/insights' },
-                { label: 'Learn', href: '/learn' },
-                { label: 'Quiz', href: '/quiz' },
-                { label: 'Duas', href: '/dua' },
-                { label: 'Khatmah', href: '/khatmah' },
-                { label: 'Search', href: '/search' },
-              ].map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="text-sm transition-colors duration-150"
-                  style={{ color: item.href === '/dua' ? '#D4B85A' : '#8a8078', textDecoration: 'none' }}
+      {/* Category Grid */}
+      {!activeCategory && (
+        <section className="px-6 pb-32 relative z-10">
+          <div className="max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {CATEGORIES.map((cat) => (
+                <div
+                  key={cat.id}
+                  className="dua-category-card"
+                  onClick={() => setActiveCategory(cat.id)}
                 >
-                  {item.label}
-                </a>
+                  <div className="dua-icon-circle mb-5">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B8983F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d={cat.icon} />
+                    </svg>
+                  </div>
+                  <h3 className="tqg-heading text-xl mb-2" style={{ fontWeight: 500 }}>
+                    {cat.name}
+                  </h3>
+                  <p className="text-xs leading-relaxed mb-4" style={{ color: '#8a8078' }}>
+                    {cat.description}
+                  </p>
+                  <div className="dua-count-badge">
+                    {cat.duas.length} dua{cat.duas.length !== 1 ? "s" : ""}
+                  </div>
+                </div>
               ))}
             </div>
-
-            <div className="flex items-center gap-3">
-              <a href="/read" className="dua-btn-filled px-5 py-2 rounded-lg text-sm inline-block hidden sm:inline-block" style={{ textDecoration: 'none' }}>
-                Open Reader
-              </a>
-              <button
-                className="md:hidden"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px', color: '#B8983F' }}
-                aria-label="Toggle menu"
-              >
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  {mobileMenuOpen ? <path d="M18 6L6 18M6 6l12 12" /> : <path d="M3 12h18M3 6h18M3 18h18" />}
-                </svg>
-              </button>
-            </div>
-          </div>
-          {mobileMenuOpen && (
-            <div className="md:hidden" style={{ background: 'rgba(13,11,8,0.98)', borderTop: '1px solid rgba(184,152,63,0.06)', padding: '12px 24px' }}>
-              {[
-                { label: 'Home', href: '/' },
-                { label: 'Read', href: '/read' },
-                { label: 'Insights', href: '/insights' },
-                { label: 'Learn', href: '/learn' },
-                { label: 'Quiz', href: '/quiz' },
-                { label: 'Duas', href: '/dua' },
-                { label: 'Khatmah', href: '/khatmah' },
-                { label: 'Search', href: '/search' },
-              ].map((item) => (
-                <a key={item.label} href={item.href} className="block py-2 text-sm" style={{ color: item.href === '/dua' ? '#D4B85A' : '#8a8078', textDecoration: 'none' }}>
-                  {item.label}
-                </a>
-              ))}
-            </div>
-          )}
-          <div className="dua-line-subtle" />
-        </nav>
-
-        {/* ═══ HERO ═══ */}
-        <section className="pt-32 pb-12 px-6 text-center relative z-10">
-          <div className="dua-divider max-w-sm mx-auto mb-6">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <rect x="2" y="2" width="8" height="8" transform="rotate(45 6 6)" stroke="#B8983F" strokeWidth="0.5" opacity="0.3"/>
-            </svg>
-          </div>
-
-          <h1 className="dua-heading dua-gold-shimmer text-5xl md:text-7xl mb-4" style={{ fontWeight: 400 }}>
-            Quranic Duas
-          </h1>
-          <p className="text-sm md:text-base max-w-lg mx-auto mb-3" style={{ color: '#8a8078' }}>
-            Beautiful supplications from the Holy Quran, organized by theme.
-          </p>
-          <p className="dua-arabic text-lg mb-6" style={{ color: 'rgba(184,152,63,0.4)' }}>
-            وَقَالَ رَبُّكُمُ ٱدْعُونِىٓ أَسْتَجِبْ لَكُمْ
-          </p>
-          <p className="dua-heading text-sm mb-8" style={{ color: '#8a8078', fontStyle: 'italic' }}>
-            &ldquo;And your Lord says, Call upon Me; I will respond to you.&rdquo; &mdash; Ghafir 40:60
-          </p>
-          <div className="dua-divider max-w-xs mx-auto">
-            <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
-              <rect x="1" y="1" width="6" height="6" transform="rotate(45 4 4)" stroke="#B8983F" strokeWidth="0.5" opacity="0.25"/>
-            </svg>
           </div>
         </section>
+      )}
 
-        {/* ═══ CATEGORY GRID ═══ */}
-        {!activeCategory && (
-          <section className="px-6 pb-32 relative z-10">
-            <div className="max-w-5xl mx-auto">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                {CATEGORIES.map((cat) => (
-                  <div
-                    key={cat.id}
-                    className="dua-category-card"
-                    onClick={() => setActiveCategory(cat.id)}
-                  >
-                    <div className="dua-icon-circle mb-5">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B8983F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d={cat.icon} />
-                      </svg>
-                    </div>
-                    <h3 className="dua-heading text-xl mb-2" style={{ fontWeight: 500 }}>
-                      {cat.name}
-                    </h3>
-                    <p className="text-xs leading-relaxed mb-4" style={{ color: '#8a8078' }}>
-                      {cat.description}
-                    </p>
-                    <div className="dua-count-badge">
-                      {cat.duas.length} dua{cat.duas.length !== 1 ? "s" : ""}
-                    </div>
-                  </div>
-                ))}
+      {/* Dua List */}
+      {activeCat && (
+        <section className="px-6 pb-32 relative z-10">
+          <div className="max-w-3xl mx-auto">
+            <button
+              className="tqg-btn-ghost px-5 py-2 rounded-lg text-sm mb-10"
+              onClick={() => setActiveCategory(null)}
+            >
+              &larr; All Categories
+            </button>
+
+            <div className="flex items-center gap-4 mb-3">
+              <div className="dua-icon-circle">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B8983F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d={activeCat.icon} />
+                </svg>
               </div>
+              <h2 className="tqg-heading tqg-gold-gradient text-3xl md:text-4xl" style={{ fontWeight: 400 }}>
+                {activeCat.name}
+              </h2>
             </div>
-          </section>
-        )}
+            <p className="text-sm mb-10" style={{ color: '#8a8078' }}>
+              {activeCat.description}
+            </p>
 
-        {/* ═══ DUA LIST ═══ */}
-        {activeCat && (
-          <section className="px-6 pb-32 relative z-10">
-            <div className="max-w-3xl mx-auto">
-              <button
-                className="dua-btn-ghost px-5 py-2 rounded-lg text-sm mb-10"
-                onClick={() => setActiveCategory(null)}
-              >
-                &larr; All Categories
-              </button>
+            <div className="flex flex-col gap-8">
+              {activeCat.duas.map((dua, i) => (
+                <div
+                  key={i}
+                  className="tqg-card tqg-ornamental dua-animate-in"
+                  style={{ animationDelay: `${i * 0.1}s` }}
+                >
+                  {/* Dua number */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '16px',
+                      right: '20px',
+                      fontFamily: "'EB Garamond', serif",
+                      fontSize: '48px',
+                      color: 'rgba(184,152,63,0.08)',
+                      lineHeight: 1,
+                      fontWeight: 400,
+                    }}
+                  >
+                    {String(i + 1).padStart(2, '0')}
+                  </div>
 
-              <div className="flex items-center gap-4 mb-3">
-                <div className="dua-icon-circle">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B8983F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d={activeCat.icon} />
-                  </svg>
+                  {/* Arabic text */}
+                  <p
+                    className="tqg-arabic text-2xl md:text-3xl lg:text-4xl mb-6"
+                    style={{ color: '#F5E8B0', textAlign: 'right', paddingRight: '4px' }}
+                  >
+                    {dua.arabic}
+                  </p>
+
+                  {/* Divider */}
+                  <div
+                    style={{
+                      height: '1px',
+                      background: 'linear-gradient(90deg, transparent, rgba(184,152,63,0.15) 20%, rgba(184,152,63,0.15) 80%, transparent)',
+                      margin: '4px 0 16px',
+                    }}
+                  />
+
+                  {/* Translation */}
+                  <p
+                    className="tqg-heading text-base md:text-lg mb-4"
+                    style={{ color: '#e5e5e5', fontWeight: 400, lineHeight: 1.7, fontStyle: 'italic' }}
+                  >
+                    &ldquo;{dua.translation}&rdquo;
+                  </p>
+
+                  {/* Reference */}
+                  <p className="text-xs tracking-wide" style={{ color: 'rgba(184,152,63,0.5)' }}>
+                    {dua.reference}
+                  </p>
                 </div>
-                <h2 className="dua-heading dua-gold-gradient text-3xl md:text-4xl" style={{ fontWeight: 400 }}>
-                  {activeCat.name}
-                </h2>
-              </div>
-              <p className="text-sm mb-10" style={{ color: '#8a8078' }}>
-                {activeCat.description}
-              </p>
-
-              <div className="flex flex-col gap-8">
-                {activeCat.duas.map((dua, i) => (
-                  <div
-                    key={i}
-                    className="dua-card dua-ornamental dua-animate-in"
-                    style={{ animationDelay: `${i * 0.1}s` }}
-                  >
-                    {/* Dua number */}
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: '16px',
-                        right: '20px',
-                        fontFamily: "'EB Garamond', serif",
-                        fontSize: '48px',
-                        color: 'rgba(184,152,63,0.08)',
-                        lineHeight: 1,
-                        fontWeight: 400,
-                      }}
-                    >
-                      {String(i + 1).padStart(2, '0')}
-                    </div>
-
-                    {/* Arabic text */}
-                    <p
-                      className="dua-arabic text-2xl md:text-3xl lg:text-4xl mb-6"
-                      style={{ color: '#F5E8B0', textAlign: 'right', paddingRight: '4px' }}
-                    >
-                      {dua.arabic}
-                    </p>
-
-                    {/* Divider */}
-                    <div
-                      style={{
-                        height: '1px',
-                        background: 'linear-gradient(90deg, transparent, rgba(184,152,63,0.15) 20%, rgba(184,152,63,0.15) 80%, transparent)',
-                        margin: '4px 0 16px',
-                      }}
-                    />
-
-                    {/* Translation */}
-                    <p
-                      className="dua-heading text-base md:text-lg mb-4"
-                      style={{ color: '#e5e5e5', fontWeight: 400, lineHeight: 1.7, fontStyle: 'italic' }}
-                    >
-                      &ldquo;{dua.translation}&rdquo;
-                    </p>
-
-                    {/* Reference */}
-                    <p className="text-xs tracking-wide" style={{ color: 'rgba(184,152,63,0.5)' }}>
-                      {dua.reference}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* ═══ FOOTER ═══ */}
-        <footer className="px-6 py-12 relative z-10" style={{ borderTop: '1px solid rgba(184,152,63,0.06)' }}>
-          <div className="max-w-6xl mx-auto">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-              <p className="text-xs" style={{ color: '#8a8078' }}>&copy; 2026 The Quran Guide</p>
-              <p className="dua-arabic text-sm" style={{ color: 'rgba(184,152,63,0.25)' }}>
-                رَبَّنَا تَقَبَّلْ مِنَّآ ۖ إِنَّكَ أَنتَ ٱلسَّمِيعُ ٱلْعَلِيمُ
-              </p>
+              ))}
             </div>
           </div>
-        </footer>
-      </div>
-    </>
+        </section>
+      )}
+    </PageLayout>
   );
 }

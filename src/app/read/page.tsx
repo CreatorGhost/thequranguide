@@ -173,6 +173,38 @@ export default function ReadPage() {
         .vd-nav a { color: var(--text-muted); transition: color 0.15s; text-decoration: none; }
         .vd-nav a:hover { color: var(--accent); }
 
+        .vd-nav-row1 {
+          display: flex; align-items: center; justify-content: space-between;
+          height: 48px; padding: 0 16px;
+          max-width: 72rem; margin: 0 auto;
+        }
+        .vd-nav-row2 {
+          display: flex; align-items: center; justify-content: space-between;
+          height: 40px; padding: 0 16px;
+          max-width: 72rem; margin: 0 auto;
+          border-top: 1px solid var(--border);
+        }
+        .vd-surah-indicator {
+          background: none; border: none; cursor: pointer;
+          font-family: 'EB Garamond', serif; font-size: 16px;
+          color: var(--accent); letter-spacing: 0.03em;
+          transition: opacity 0.15s; padding: 4px 12px;
+        }
+        .vd-surah-indicator:hover { opacity: 0.75; }
+        .vd-page-stepper {
+          display: flex; align-items: center; gap: 6px;
+          font-family: 'EB Garamond', serif; font-size: 14px;
+          color: var(--text-muted);
+        }
+        .vd-page-stepper button {
+          background: none; border: none; cursor: pointer;
+          color: var(--text-muted); font-size: 13px; padding: 4px 6px;
+          transition: color 0.15s; display: flex; align-items: center;
+          border-radius: 4px;
+        }
+        .vd-page-stepper button:hover { color: var(--accent); }
+        .vd-page-stepper button:disabled { opacity: 0.2; pointer-events: none; }
+
         .vd-page-input {
           background: var(--page-input-bg);
           border: 1px solid var(--page-input-border);
@@ -195,7 +227,7 @@ export default function ReadPage() {
           display: flex; gap: 2px;
           background: var(--mode-toggle-bg);
           border: 1px solid var(--mode-toggle-border);
-          border-radius: 10px; padding: 3px;
+          border-radius: 10px; padding: 4px;
         }
         .vd-mode-btn {
           padding: 6px 14px; border-radius: 8px;
@@ -232,50 +264,64 @@ export default function ReadPage() {
         }
         .vd-page-header-num { font-family: 'Amiri', serif; font-size: 16px; color: var(--header-num); }
 
-        .vd-content { flex: 1; padding: 36px 48px 28px; }
-        @media (min-width: 640px) { .vd-content { padding: 48px 72px 36px; } }
-        @media (min-width: 768px) { .vd-content { padding: 56px 100px 40px; } }
-        @media (min-width: 1024px) { .vd-content { padding: 56px 128px 44px; } }
+        .vd-content { flex: 1; padding: 24px 20px 20px; }
+        @media (min-width: 640px) { .vd-content { padding: 28px 32px 24px; } }
+        @media (min-width: 768px) { .vd-content { padding: 32px 48px 28px; } }
+        @media (min-width: 1024px) { .vd-content { padding: 32px 64px 28px; } }
 
         .vd-surah-banner {
-          background: var(--banner-bg);
-          border: 1px solid var(--banner-border);
-          border-radius: 6px; text-align: center;
-          padding: 24px 32px; margin-bottom: 32px; margin-top: 12px;
-          position: relative;
+          display: flex; align-items: center; justify-content: center; gap: 24px;
+          padding: 20px 24px; margin-bottom: 8px; margin-top: 8px;
+          text-align: center;
         }
-        .vd-surah-banner::before, .vd-surah-banner::after {
-          content: '\\2726'; position: absolute; top: 50%; transform: translateY(-50%);
-          color: var(--ornament-color); font-size: 8px;
-        }
-        .vd-surah-banner::before { left: 20px; }
-        .vd-surah-banner::after { right: 20px; }
         .vd-surah-banner-name {
           font-family: 'PDMS Saleem QuranFont', 'Amiri', serif;
-          font-size: 40px; color: var(--accent); direction: rtl;
-          line-height: 1.6; letter-spacing: 0.02em; margin-bottom: 6px;
+          font-size: 42px; color: var(--accent); direction: rtl;
+          line-height: 1.4; letter-spacing: 0.02em;
+        }
+        @media (max-width: 639px) { .vd-surah-banner-name { font-size: 34px; } }
+        .vd-surah-banner-info { text-align: left; direction: ltr; }
+        .vd-surah-banner-en {
+          font-family: 'EB Garamond', serif; font-size: 18px;
+          color: var(--text-bright, #F5E8B0); font-weight: 600;
+          letter-spacing: 0.02em; line-height: 1.4;
+        }
+        .vd-surah-banner-trans {
+          font-family: 'EB Garamond', serif; font-size: 14px;
+          color: var(--text-muted); font-style: italic;
+          letter-spacing: 0.02em; margin-top: 2px;
         }
         .vd-surah-banner-meta {
           font-size: 12px; color: var(--text-muted);
-          letter-spacing: 0.08em; margin-top: 4px;
+          letter-spacing: 0.06em; margin-top: 4px;
         }
 
         .vd-bismillah {
           font-family: 'PDMS Saleem QuranFont', 'Amiri', serif;
-          font-size: 38px; color: var(--accent, #D4B44A); text-align: center;
-          direction: rtl; line-height: 2.6; margin-bottom: 28px;
+          font-size: 34px; color: var(--accent, #D4B44A); text-align: center;
+          direction: rtl; line-height: 2.0; margin-bottom: 18px;
           margin-top: 8px; letter-spacing: 0.02em;
         }
-        @media (min-width: 640px) { .vd-bismillah { font-size: 44px; margin-bottom: 32px; } }
+        @media (min-width: 640px) { .vd-bismillah { font-size: 40px; margin-bottom: 22px; } }
+
+        .vd-bismillah-en {
+          font-family: 'EB Garamond', serif;
+          font-size: 14px;
+          color: var(--text-muted);
+          text-align: center;
+          margin-top: -10px;
+          margin-bottom: 20px;
+          letter-spacing: 0.02em;
+        }
 
         .vd-quran {
           font-family: 'PDMS Saleem QuranFont', 'Amiri Quran', 'Amiri', serif;
-          font-size: 32px; line-height: 3.4; direction: rtl;
+          font-size: 30px; line-height: 2.1; direction: rtl;
           text-align: justify; color: var(--text-bright, #F5E8B0);
-          word-spacing: 20px; letter-spacing: 0.04em;
+          word-spacing: 6px; letter-spacing: 0.02em;
         }
-        @media (min-width: 640px) { .vd-quran { font-size: 36px; line-height: 3.2; word-spacing: 28px; } }
-        @media (min-width: 768px) { .vd-quran { font-size: 40px; line-height: 3.0; word-spacing: 32px; } }
+        @media (min-width: 640px) { .vd-quran { font-size: 34px; line-height: 2.0; word-spacing: 8px; } }
+        @media (min-width: 768px) { .vd-quran { font-size: 38px; line-height: 2.0; word-spacing: 10px; } }
 
         .vd-ayah-playing {
           background: linear-gradient(90deg, transparent 0%, var(--surface) 10%, var(--surface) 90%, transparent 100%);
@@ -285,11 +331,11 @@ export default function ReadPage() {
 
         .vd-anum {
           display: inline-flex; align-items: center; justify-content: center;
-          width: 36px; height: 36px;
+          width: 30px; height: 30px;
           border: 1.5px solid var(--anum-border); border-radius: 50%;
-          font-family: 'Amiri', serif; font-size: 14px;
+          font-family: 'Amiri', serif; font-size: 12px;
           color: var(--anum-text);
-          vertical-align: middle; margin: 0 8px;
+          vertical-align: middle; margin: 0 4px;
           direction: ltr; flex-shrink: 0; line-height: 1;
         }
         .vd-anum-btn { cursor: pointer; transition: all 0.2s; }
@@ -342,7 +388,7 @@ export default function ReadPage() {
 
         .vd-hint {
           display: flex; align-items: center; justify-content: center; gap: 8px;
-          padding: 12px 20px; margin-bottom: 28px;
+          padding: 10px 16px; margin-bottom: 16px;
           background: var(--hint-bg); border: 1px solid var(--hint-border);
           border-radius: 8px; font-family: 'EB Garamond', serif;
           font-size: 13px; color: var(--hint-text); letter-spacing: 0.02em; line-height: 1.5;
@@ -431,18 +477,18 @@ export default function ReadPage() {
         }
         @media (min-width: 640px) { .vd-full-translation { font-size: 16px; padding: 12px 28px; } }
 
-        .vd-trans-ayah { margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--trans-ayah-border); }
-        .vd-trans-ayah:last-child { border-bottom: none; margin-bottom: 8px; }
+        .vd-trans-ayah { margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1px solid var(--trans-ayah-border); }
+        .vd-trans-ayah:last-child { border-bottom: none; margin-bottom: 6px; }
         .vd-trans-ayah.playing { background: var(--trans-playing-bg); border-radius: 8px; padding: 16px 20px 20px; margin-left: -20px; margin-right: -20px; }
         .vd-trans-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; direction: ltr; }
         .vd-trans-arabic {
           font-family: 'PDMS Saleem QuranFont', 'Amiri Quran', 'Amiri', serif;
-          font-size: 34px; line-height: 2.8; direction: rtl;
-          text-align: right; color: var(--text-bright, #F5E8B0); margin-bottom: 14px;
-          word-spacing: 16px; letter-spacing: 0.03em;
+          font-size: 32px; line-height: 2.1; direction: rtl;
+          text-align: right; color: var(--text-bright, #F5E8B0); margin-bottom: 12px;
+          word-spacing: 8px; letter-spacing: 0.02em;
         }
-        @media (min-width: 640px) { .vd-trans-arabic { font-size: 40px; line-height: 2.6; word-spacing: 24px; } }
-        @media (min-width: 768px) { .vd-trans-arabic { font-size: 44px; line-height: 2.4; word-spacing: 28px; } }
+        @media (min-width: 640px) { .vd-trans-arabic { font-size: 38px; line-height: 2.0; word-spacing: 10px; } }
+        @media (min-width: 768px) { .vd-trans-arabic { font-size: 42px; line-height: 2.0; word-spacing: 12px; } }
         .vd-trans-english { font-family: 'EB Garamond', serif; font-size: 16px; color: var(--text-muted, #8A7D5E); line-height: 1.75; text-align: left; direction: ltr; padding-left: 2px; }
         @media (min-width: 640px) { .vd-trans-english { font-size: 17px; } }
         .vd-trans-english.rtl-text { direction: rtl; text-align: right; padding-left: 0; padding-right: 2px; font-size: 19px; line-height: 2.0; }
@@ -458,7 +504,7 @@ export default function ReadPage() {
         .vd-nav-btn:hover { color: var(--accent); background: var(--surface-hover); }
 
         .vd-more-menu {
-          position: absolute; top: calc(100% + 6px); left: 0;
+          position: absolute; top: calc(100% + 6px); right: 0;
           background: var(--dropdown-bg); border: 1px solid var(--dropdown-border);
           border-radius: 8px; padding: 4px; min-width: 150px;
           backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
@@ -478,60 +524,33 @@ export default function ReadPage() {
 
         {/* ─── Nav ─── */}
         <nav className="vd-nav fixed top-0 left-0 right-0 z-50">
-          <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between text-base">
+          {/* Row 1: Primary navigation */}
+          <div className="vd-nav-row1">
             <div className="flex items-center gap-3">
-              <a href="/" className="flex items-center gap-2">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M15 19l-7-7 7-7" /></svg>
-                <span style={{ fontFamily: "'EB Garamond', serif", color: "var(--accent)", fontSize: "17px" }}>The Quran Guide</span>
-                <span className="hidden sm:inline" style={{ color: 'rgba(184,152,63,0.5)', fontFamily: "'Amiri', serif", fontSize: "13px", direction: 'rtl', lineHeight: 1 }}>دليل القرآن</span>
-              </a>
-
-              {/* Surah sidebar toggle */}
               <button className="vd-nav-btn" onClick={() => setSidebarOpen(true)} title="Browse Surahs">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M3 12h18M3 6h18M3 18h18" />
                 </svg>
               </button>
+              <a href="/" className="flex items-center gap-2">
+                <span style={{ fontFamily: "'EB Garamond', serif", color: "var(--accent)", fontSize: "17px" }}>The Quran Guide</span>
+                <span className="hidden sm:inline" style={{ color: 'rgba(184,152,63,0.5)', fontFamily: "'Amiri', serif", fontSize: "13px", direction: 'rtl', lineHeight: 1 }}>دليل القرآن</span>
+              </a>
+            </div>
 
-              {/* Search */}
+            {/* Center: Current surah name */}
+            {!page.loading && page.firstSurah && (
+              <button className="vd-surah-indicator hidden sm:block" onClick={() => setSidebarOpen(true)}>
+                {page.firstSurah.englishName}
+              </button>
+            )}
+
+            <div className="flex items-center gap-2">
               <button className="vd-nav-btn" onClick={() => setSearchOpen(true)} title="Search (Ctrl+K)">
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" />
                 </svg>
               </button>
-
-              {/* More pages menu */}
-              <div style={{ position: "relative" }}>
-                <button
-                  className="vd-nav-btn"
-                  onClick={(e) => { e.stopPropagation(); setMoreMenuOpen((v) => !v); }}
-                  title="More pages"
-                  style={{ gap: "4px", padding: "4px 10px", fontSize: "15px", fontFamily: "'EB Garamond', serif" }}
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="12" cy="5" r="1.5" fill="currentColor" /><circle cx="12" cy="12" r="1.5" fill="currentColor" /><circle cx="12" cy="19" r="1.5" fill="currentColor" />
-                  </svg>
-                  <span className="hidden sm:inline" style={{ color: "var(--text-muted)" }}>More</span>
-                </button>
-                {moreMenuOpen && (
-                  <div className="vd-more-menu" onClick={(e) => e.stopPropagation()}>
-                    {NAV_LINKS.map((link) => (
-                      <a key={link.href} href={link.href}>{link.label}</a>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <ViewModeToggle
-              mode={mode}
-              onChange={(m) => { audio.stopAudio(); setMode(m); }}
-              showTransliteration={showTransliteration}
-              onToggleTransliteration={() => setShowTransliteration((p) => !p)}
-            />
-
-            <div className="flex items-center gap-2">
-              {/* Theme toggle */}
               <button className="vd-nav-btn" onClick={cycleTheme} title={`Theme: ${theme}`}>
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   {theme === "dark" ? (
@@ -545,16 +564,77 @@ export default function ReadPage() {
                   )}
                 </svg>
               </button>
+              <div style={{ position: "relative" }}>
+                <button
+                  className="vd-nav-btn"
+                  onClick={(e) => { e.stopPropagation(); setMoreMenuOpen((v) => !v); }}
+                  title="More pages"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="12" cy="5" r="1.5" fill="currentColor" /><circle cx="12" cy="12" r="1.5" fill="currentColor" /><circle cx="12" cy="19" r="1.5" fill="currentColor" />
+                  </svg>
+                </button>
+                {moreMenuOpen && (
+                  <div className="vd-more-menu" onClick={(e) => e.stopPropagation()}>
+                    {NAV_LINKS.map((link) => (
+                      <a key={link.href} href={link.href}>{link.label}</a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
 
-              {/* Translation language selector */}
+          {/* Row 2: Reader controls */}
+          <div className="vd-nav-row2">
+            {/* Left: Page stepper */}
+            <div className="vd-page-stepper">
+              <button onClick={() => goTo(pageNum - 1)} disabled={pageNum <= 1} aria-label="Previous page">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 19l-7-7 7-7" /></svg>
+              </button>
+              <span>Page</span>
+              <input
+                type="number"
+                className="vd-page-input"
+                min={1}
+                max={TOTAL_PAGES}
+                value={pageNum}
+                onChange={(e) => {
+                  const v = parseInt(e.target.value);
+                  if (!isNaN(v) && v >= 1 && v <= TOTAL_PAGES) setPageNum(v);
+                }}
+              />
+              <button onClick={() => goTo(pageNum + 1)} disabled={pageNum >= TOTAL_PAGES} aria-label="Next page">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 5l7 7-7 7" /></svg>
+              </button>
+            </div>
+
+            {/* Center: Mode toggle */}
+            <ViewModeToggle
+              mode={mode}
+              onChange={(m) => { audio.stopAudio(); setMode(m); }}
+              showTransliteration={showTransliteration}
+              onToggleTransliteration={() => setShowTransliteration((p) => !p)}
+            />
+
+            {/* Right: Juz + Language */}
+            <div className="flex items-center gap-2">
+              {page.juz > 0 && (
+                <JuzDropdown
+                  juzData={JUZ}
+                  surahs={SURAHS}
+                  currentJuz={page.juz}
+                  onNavigate={navigate}
+                />
+              )}
               <div style={{ position: "relative" }}>
                 <button
                   className="vd-nav-btn"
                   onClick={(e) => { e.stopPropagation(); setLangDropdownOpen((v) => !v); }}
                   title="Translation language"
-                  style={{ fontSize: "15px", fontFamily: "'EB Garamond', serif", gap: "4px", padding: "4px 10px" }}
+                  style={{ fontSize: "13px", fontFamily: "'EB Garamond', serif", gap: "4px", padding: "4px 8px" }}
                 >
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <circle cx="12" cy="12" r="10" /><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
                   </svg>
                   <span>{TRANSLATION_EDITIONS.find((e) => e.code === translationLang)?.label || "EN"}</span>
@@ -617,30 +697,6 @@ export default function ReadPage() {
                   </div>
                 )}
               </div>
-
-              {page.juz > 0 && (
-                <JuzDropdown
-                  juzData={JUZ}
-                  surahs={SURAHS}
-                  currentJuz={page.juz}
-                  onNavigate={navigate}
-                />
-              )}
-              <div className="flex items-center gap-1.5">
-                <span style={{ color: "var(--text-muted)", fontSize: "15px" }}>Pg</span>
-                <input
-                  type="number"
-                  className="vd-page-input"
-                  min={1}
-                  max={TOTAL_PAGES}
-                  value={pageNum}
-                  onChange={(e) => {
-                    const v = parseInt(e.target.value);
-                    if (!isNaN(v) && v >= 1 && v <= TOTAL_PAGES) setPageNum(v);
-                  }}
-                />
-                <span style={{ color: "var(--text-muted)", fontSize: "14px" }}>/{TOTAL_PAGES}</span>
-              </div>
             </div>
           </div>
         </nav>
@@ -654,7 +710,7 @@ export default function ReadPage() {
         </button>
 
         {/* ─── Mushaf page ─── */}
-        <main className="relative z-10 pt-16 pb-10" style={{ maxWidth: "100%", margin: "0 auto" }}>
+        <main className="relative z-10 pb-10" style={{ maxWidth: "100%", margin: "0 auto", paddingTop: "88px" }}>
           <div className={`vd-mushaf ${mode !== "reading" ? "wide" : ""}`}>
             {!page.loading && page.firstSurah && (
               <div className="vd-page-header">
@@ -721,19 +777,17 @@ export default function ReadPage() {
             {!page.loading && (
               <div className="vd-page-footer">
                 <div className="vd-page-footer-num">{toArabicNum(pageNum)}</div>
+                <div style={{ color: "var(--text-muted)", fontSize: "12px", marginTop: "6px", fontFamily: "'EB Garamond', serif", letterSpacing: "0.03em" }}>
+                  {page.groupedBySurah.map((g, i) => (
+                    <span key={i}>{g.surah.englishName}{i < page.groupedBySurah.length - 1 ? " \u00b7 " : ""}</span>
+                  ))}
+                  {" "}&middot; Page {pageNum}
+                  {page.juz > 0 && <> &middot; Juz {page.juz}</>}
+                </div>
                 {page.manzil > 0 && <div className="vd-manzil">{"\u0645\u0646\u0632\u0644"} {toArabicNum(page.manzil)}</div>}
               </div>
             )}
           </div>
-
-          {!page.loading && page.ayahs.length > 0 && (
-            <div className="text-center mt-5" style={{ color: "var(--text-muted)", fontSize: "11px" }}>
-              {page.groupedBySurah.map((g, i) => (
-                <span key={i}>{g.surah.englishName}{i < page.groupedBySurah.length - 1 ? " \u00b7 " : ""}</span>
-              ))}
-              {" "}&middot; Page {pageNum} &middot; Juz {page.juz}
-            </div>
-          )}
         </main>
 
         {/* ─── Overlays ─── */}

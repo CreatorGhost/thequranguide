@@ -1,0 +1,253 @@
+/* ─── The Quran Guide — Design System ─── */
+
+/* ─── Font Face ─── */
+@font-face {
+  font-family: 'PDMS Saleem QuranFont';
+  src: url('/fonts/pdms-saleem-quranfont.woff') format('woff'),
+       url('/fonts/pdms-saleem-quranfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── Design Tokens ─── */
+:root {
+  --tqg-gold: #B8983F;
+  --tqg-gold-light: #D4B85A;
+  --tqg-gold-deep: #8B6914;
+  --tqg-gold-pale: #E8D5A0;
+  --tqg-base: #0d0b08;
+  --tqg-surface: #131110;
+  --tqg-surface-2: #1a1714;
+  --tqg-text: #e5e5e5;
+  --tqg-text-muted: #8a8078;
+  --tqg-border: rgba(184, 152, 63, 0.12);
+  --tqg-border-subtle: rgba(255, 255, 255, 0.06);
+}
+
+/* ─── Keyframe Animations ─── */
+@keyframes tqg-shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes tqg-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes tqg-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.4;
+    transform: translateY(4px);
+  }
+}
+
+/* ─── Base Page ─── */
+.tqg-page {
+  background-color: var(--tqg-base);
+  color: var(--tqg-text);
+  font-family: var(--font-inter), 'Inter', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Typography ─── */
+.tqg-heading {
+  font-family: var(--font-eb-garamond), 'EB Garamond', 'Georgia', serif;
+}
+
+.tqg-arabic {
+  font-family: 'PDMS Saleem QuranFont', var(--font-amiri), 'Amiri', 'Traditional Arabic', serif;
+  direction: rtl;
+  line-height: 2.0;
+}
+
+.tqg-gold-gradient {
+  background: linear-gradient(135deg, var(--tqg-gold-light), var(--tqg-gold), var(--tqg-gold-deep));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.tqg-gold-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--tqg-gold-deep) 0%,
+    var(--tqg-gold-light) 25%,
+    var(--tqg-gold-pale) 50%,
+    var(--tqg-gold-light) 75%,
+    var(--tqg-gold-deep) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: tqg-shimmer 4s linear infinite;
+}
+
+/* ─── Buttons ─── */
+.tqg-btn-filled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.5rem;
+  background: linear-gradient(135deg, var(--tqg-gold), var(--tqg-gold-deep));
+  color: var(--tqg-base);
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.tqg-btn-filled:hover {
+  box-shadow: 0 0 20px rgba(184, 152, 63, 0.3), 0 4px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+.tqg-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.5rem;
+  background: transparent;
+  color: var(--tqg-gold-light);
+  font-weight: 500;
+  font-size: 0.875rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--tqg-border);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.tqg-btn-ghost:hover {
+  background: rgba(184, 152, 63, 0.08);
+  border-color: var(--tqg-gold);
+}
+
+/* ─── Dividers & Lines ─── */
+.tqg-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.tqg-line {
+  height: 1px;
+  background-color: var(--tqg-border);
+  flex: 1;
+}
+
+.tqg-line-subtle {
+  height: 1px;
+  background-color: var(--tqg-border-subtle);
+  flex: 1;
+}
+
+.tqg-line-gradient {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--tqg-gold), transparent);
+  flex: 1;
+}
+
+/* ─── Ornamental Frame ─── */
+.tqg-ornamental {
+  position: relative;
+  padding: 1.5rem;
+}
+
+.tqg-ornamental::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  border-top: 1px solid var(--tqg-gold);
+  border-left: 1px solid var(--tqg-gold);
+  opacity: 0.4;
+}
+
+.tqg-ornamental::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  border-bottom: 1px solid var(--tqg-gold);
+  border-right: 1px solid var(--tqg-gold);
+  opacity: 0.4;
+}
+
+/* ─── Card ─── */
+.tqg-card {
+  background-color: var(--tqg-surface);
+  border: 1px solid var(--tqg-border);
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.tqg-card:hover {
+  border-color: rgba(184, 152, 63, 0.25);
+  background-color: var(--tqg-surface-2);
+}
+
+/* ─── Noise Texture Overlay ─── */
+.tqg-noise::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* ─── Central Golden Glow ─── */
+.tqg-glow {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 900px;
+  height: 900px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(184, 152, 63, 0.04) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Nav Bar ─── */
+.tqg-nav {
+  background: rgba(13, 11, 8, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}

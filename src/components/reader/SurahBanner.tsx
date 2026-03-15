@@ -15,12 +15,21 @@ export function SurahBanner({ surah, showDivider }: SurahBannerProps) {
       {showDivider && <div className="vd-surah-divider" />}
       <div className="vd-surah-banner">
         <div className="vd-surah-banner-name">{surah.name}</div>
-        <div className="vd-surah-banner-meta">
-          {surah.englishName} &middot; {surah.englishNameTranslation} &middot; {surah.numberOfAyahs} Ayahs
+        <div className="vd-surah-banner-info">
+          <div className="vd-surah-banner-en">{surah.number}. {surah.englishName}</div>
+          <div className="vd-surah-banner-trans">{surah.englishNameTranslation}</div>
+          <div className="vd-surah-banner-meta">
+            {surah.numberOfAyahs} Ayahs &middot; {surah.revelationType || "Meccan"}
+          </div>
         </div>
       </div>
       {!isTawba && !isFatiha && (
-        <div className="vd-bismillah">{BISMILLAH}</div>
+        <>
+          <div className="vd-bismillah">{BISMILLAH}</div>
+          <div className="vd-bismillah-en">
+            In the Name of Allah—the Most Compassionate, Most Merciful
+          </div>
+        </>
       )}
     </>
   );

@@ -1,6 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
 
 /* ─── Flashcard data ─── */
 const FLASHCARDS = [
@@ -198,7 +201,6 @@ function getDueCards(sm2: SM2Data): number[] {
 }
 
 export default function LearnPage() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<"root" | "vocab" | "grammar" | null>(null);
   const [selectedRoot, setSelectedRoot] = useState(0);
   const [flipped, setFlipped] = useState(false);
@@ -255,84 +257,11 @@ export default function LearnPage() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500&family=Amiri:wght@400;700&display=swap');
-
-        @font-face {
-          font-family: 'PDMS Saleem QuranFont';
-          src: url('/fonts/pdms-saleem-quranfont.woff') format('woff'),
-               url('/fonts/pdms-saleem-quranfont.ttf') format('truetype');
-          font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
-
-        .learn-page {
-          --gold: #B8983F;
-          --gold-light: #D4B85A;
-          --gold-deep: #8B6914;
-          --gold-pale: #E8D5A0;
-          --base: #0d0b08;
-          --surface: #131110;
-          --surface2: #1a1714;
-          --text: #e5e5e5;
-          --text-muted: #8a8078;
-          --border: rgba(184,152,63,0.12);
-          --border-subtle: rgba(255,255,255,0.06);
-          background: var(--base);
-          color: var(--text);
-          font-family: 'Inter', -apple-system, sans-serif;
-          font-weight: 400;
-          overflow-x: hidden;
-          -webkit-font-smoothing: antialiased;
-          min-height: 100vh;
-        }
-
-        .learn-heading { font-family: 'EB Garamond', serif; }
-        .learn-arabic {
-          font-family: 'PDMS Saleem QuranFont', 'Amiri', serif;
-          direction: rtl;
-          line-height: 2.2;
-        }
-
-        .learn-gold-shimmer {
-          background: linear-gradient(135deg, #8B6914 10%, #B8983F 35%, #D4B85A 50%, #E8D5A0 55%, #D4B85A 65%, #B8983F 80%, #8B6914 100%);
-          background-size: 200% 200%;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          animation: learn-shimmer 6s ease-in-out infinite;
-        }
-        @keyframes learn-shimmer {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-        }
-
-        .learn-gold-gradient {
-          background: linear-gradient(135deg, #8B6914 10%, #B8983F 40%, #D4B85A 60%, #B8983F 90%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-
-        .learn-glow {
-          position: fixed;
-          top: 50%; left: 50%;
-          transform: translate(-50%, -50%);
-          width: 900px; height: 900px;
-          border-radius: 50%;
-          background: radial-gradient(circle, rgba(184,152,63,0.09) 0%, rgba(139,105,20,0.04) 30%, rgba(184,152,63,0.015) 50%, transparent 70%);
-          pointer-events: none; z-index: 0;
-        }
-
-        .learn-nav {
-          background: rgba(13,11,8,0.92);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-        }
+        /* ─── Learn page-specific styles ─── */
 
         .learn-card {
-          background: var(--surface);
-          border: 1px solid var(--border-subtle);
+          background: var(--tqg-surface);
+          border: 1px solid var(--tqg-border-subtle);
           border-radius: 16px;
           position: relative;
           transition: all 0.25s ease-out;
@@ -344,41 +273,9 @@ export default function LearnPage() {
           transform: translateY(-2px);
           box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 0 1px rgba(184,152,63,0.08);
         }
-
         .learn-card-active {
           border-color: rgba(184,152,63,0.3) !important;
           box-shadow: 0 0 32px rgba(184,152,63,0.1);
-        }
-
-        .learn-btn-filled {
-          background: linear-gradient(135deg, #B8983F, #9A7B2F);
-          color: #0d0b08;
-          font-family: 'Inter', sans-serif;
-          font-weight: 600;
-          letter-spacing: 0.04em;
-          transition: all 0.2s ease-out;
-          border: none;
-          cursor: pointer;
-          box-shadow: 0 0 0 0 rgba(184,152,63,0);
-        }
-        .learn-btn-filled:hover {
-          box-shadow: 0 0 24px rgba(184,152,63,0.25);
-          transform: translateY(-1px);
-        }
-
-        .learn-btn-ghost {
-          border: 1px solid rgba(184,152,63,0.35);
-          color: var(--gold);
-          font-family: 'Inter', sans-serif;
-          font-weight: 500;
-          letter-spacing: 0.04em;
-          transition: all 0.2s ease-out;
-          background: none;
-          cursor: pointer;
-        }
-        .learn-btn-ghost:hover {
-          background: rgba(184,152,63,0.08);
-          border-color: rgba(184,152,63,0.55);
         }
 
         .learn-diamond {
@@ -393,20 +290,6 @@ export default function LearnPage() {
         }
         .learn-diamond > * { transform: rotate(-45deg); }
         .learn-card:hover .learn-diamond { border-color: rgba(184,152,63,0.4); }
-
-        .learn-line { height: 1px; background: var(--border); }
-        .learn-line-subtle { height: 1px; background: rgba(184,152,63,0.06); }
-
-        .learn-divider {
-          display: flex; align-items: center; justify-content: center; gap: 16px;
-        }
-        .learn-divider::before, .learn-divider::after {
-          content: ''; height: 1px; flex: 1;
-          background: linear-gradient(90deg, transparent, rgba(184,152,63,0.18));
-        }
-        .learn-divider::after {
-          background: linear-gradient(90deg, rgba(184,152,63,0.18), transparent);
-        }
 
         /* Flashcard flip */
         .flashcard-container { perspective: 800px; }
@@ -431,22 +314,13 @@ export default function LearnPage() {
           padding: 32px;
         }
         .flashcard-front {
-          background: linear-gradient(160deg, var(--surface) 0%, rgba(26,23,20,1) 100%);
+          background: linear-gradient(160deg, var(--tqg-surface) 0%, rgba(26,23,20,1) 100%);
           border: 1px solid rgba(184,152,63,0.15);
         }
         .flashcard-back {
-          background: linear-gradient(160deg, rgba(26,23,20,1) 0%, var(--surface) 100%);
+          background: linear-gradient(160deg, rgba(26,23,20,1) 0%, var(--tqg-surface) 100%);
           border: 1px solid rgba(184,152,63,0.2);
           transform: rotateY(180deg);
-        }
-
-        .learn-noise::after {
-          content: '';
-          position: fixed; inset: 0;
-          opacity: 0.025; pointer-events: none; z-index: 9999;
-          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-          background-repeat: repeat;
-          background-size: 256px 256px;
         }
 
         .learn-tag {
@@ -454,7 +328,7 @@ export default function LearnPage() {
           padding: 2px 10px;
           border-radius: 12px;
           font-size: 11px;
-          font-family: 'Inter', sans-serif;
+          font-family: var(--font-inter), 'Inter', sans-serif;
           font-weight: 500;
           letter-spacing: 0.02em;
         }
@@ -478,7 +352,7 @@ export default function LearnPage() {
           border-radius: 24px;
           cursor: pointer;
           transition: all 0.2s;
-          font-family: 'Inter', sans-serif;
+          font-family: var(--font-inter), 'Inter', sans-serif;
           font-size: 13px;
         }
         .root-chip:hover { border-color: rgba(184,152,63,0.35); background: rgba(184,152,63,0.06); }
@@ -501,100 +375,31 @@ export default function LearnPage() {
         }
       `}</style>
 
-      <div className="learn-page learn-noise">
-        <div className="learn-glow" />
-
-        {/* ═══ NAVIGATION ═══ */}
-        <nav className="learn-nav fixed top-0 left-0 right-0 z-50">
-          <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <div className="flex items-center gap-2.5">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="8" stroke="#B8983F" strokeWidth="0.7" opacity="0.5"/>
-                <circle cx="12" cy="12" r="4" stroke="#B8983F" strokeWidth="0.5" opacity="0.35"/>
-                <path d="M12 2L12 4M12 20L12 22M2 12L4 12M20 12L22 12M4.93 4.93L6.34 6.34M17.66 17.66L19.07 19.07M4.93 19.07L6.34 17.66M17.66 6.34L19.07 4.93" stroke="#B8983F" strokeWidth="0.5" opacity="0.3"/>
-              </svg>
-              <a href="/" className="flex items-center gap-2" style={{ textDecoration: 'none' }}>
-                <span className="learn-heading text-lg" style={{ color: '#B8983F', fontWeight: 500 }}>The Quran Guide</span>
-                <span className="text-sm hidden sm:inline" style={{ color: 'rgba(184,152,63,0.5)', fontFamily: "'Amiri', serif", direction: 'rtl', lineHeight: 1 }}>دليل القرآن</span>
-              </a>
-            </div>
-
-            <div className="hidden md:flex items-center gap-10">
-              {[
-                { label: 'Home', href: '/' },
-                { label: 'Read', href: '/read' },
-                { label: 'Insights', href: '/insights' },
-                { label: 'Learn', href: '/learn' },
-                { label: 'Quiz', href: '/quiz' },
-                { label: 'Duas', href: '/dua' },
-                { label: 'Khatmah', href: '/khatmah' },
-                { label: 'Search', href: '/search' },
-              ].map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="text-sm transition-colors duration-150"
-                  style={{ color: item.href === '/learn' ? '#D4B85A' : '#8a8078', textDecoration: 'none' }}
-                >
-                  {item.label}
-                </a>
-              ))}
-            </div>
-
-            <div className="flex items-center gap-3">
-              <a href="/read" className="learn-btn-filled px-5 py-2 rounded-lg text-sm inline-block hidden sm:inline-block" style={{ textDecoration: 'none' }}>
-                Open Reader
-              </a>
-              <button
-                className="md:hidden"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px', color: '#B8983F' }}
-                aria-label="Toggle menu"
-              >
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  {mobileMenuOpen ? <path d="M18 6L6 18M6 6l12 12" /> : <path d="M3 12h18M3 6h18M3 18h18" />}
-                </svg>
-              </button>
-            </div>
-          </div>
-          {mobileMenuOpen && (
-            <div className="md:hidden" style={{ background: 'rgba(13,11,8,0.98)', borderTop: '1px solid rgba(184,152,63,0.06)', padding: '12px 24px' }}>
-              {[
-                { label: 'Home', href: '/' },
-                { label: 'Read', href: '/read' },
-                { label: 'Insights', href: '/insights' },
-                { label: 'Learn', href: '/learn' },
-                { label: 'Quiz', href: '/quiz' },
-                { label: 'Duas', href: '/dua' },
-                { label: 'Khatmah', href: '/khatmah' },
-                { label: 'Search', href: '/search' },
-              ].map((item) => (
-                <a key={item.label} href={item.href} className="block py-2 text-sm" style={{ color: item.href === '/learn' ? '#D4B85A' : '#8a8078', textDecoration: 'none' }}>
-                  {item.label}
-                </a>
-              ))}
-            </div>
-          )}
-          <div className="learn-line-subtle" />
-        </nav>
+      <div className="tqg-page tqg-noise">
+        <div className="tqg-glow" />
+        <Navbar currentPath="/learn" />
 
         {/* ═══ HERO ═══ */}
         <section className="pt-32 pb-16 px-6 text-center relative z-10">
-          <div className="learn-divider max-w-sm mx-auto mb-6">
+          <div className="tqg-divider max-w-sm mx-auto mb-6" style={{ justifyContent: 'center', gap: '16px' }}>
+            <div className="tqg-line" style={{ background: 'linear-gradient(90deg, transparent, rgba(184,152,63,0.18))' }} />
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
               <rect x="2" y="2" width="8" height="8" transform="rotate(45 6 6)" stroke="#B8983F" strokeWidth="0.5" opacity="0.3"/>
             </svg>
+            <div className="tqg-line" style={{ background: 'linear-gradient(90deg, rgba(184,152,63,0.18), transparent)' }} />
           </div>
-          <h1 className="learn-heading learn-gold-shimmer text-5xl md:text-7xl mb-4" style={{ fontWeight: 400 }}>
+          <h1 className="tqg-heading tqg-gold-shimmer text-5xl md:text-7xl mb-4" style={{ fontWeight: 400 }}>
             Learn Arabic
           </h1>
-          <p className="text-sm md:text-base max-w-lg mx-auto mb-6" style={{ color: '#8a8078' }}>
+          <p className="text-sm md:text-base max-w-lg mx-auto mb-6" style={{ color: 'var(--tqg-text-muted)' }}>
             Understand the language of the Quran through root analysis, vocabulary building, and grammatical insight.
           </p>
-          <div className="learn-divider max-w-xs mx-auto">
+          <div className="tqg-divider max-w-xs mx-auto" style={{ justifyContent: 'center', gap: '16px' }}>
+            <div className="tqg-line" style={{ background: 'linear-gradient(90deg, transparent, rgba(184,152,63,0.18))' }} />
             <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
               <rect x="1" y="1" width="6" height="6" transform="rotate(45 4 4)" stroke="#B8983F" strokeWidth="0.5" opacity="0.25"/>
             </svg>
+            <div className="tqg-line" style={{ background: 'linear-gradient(90deg, rgba(184,152,63,0.18), transparent)' }} />
           </div>
         </section>
 
@@ -612,13 +417,13 @@ export default function LearnPage() {
                     <path d="M8 7h8M8 11h6"/>
                   </svg>
                 </div>
-                <h3 className="learn-heading text-2xl mb-3" style={{ fontWeight: 500 }}>Root Word Analysis</h3>
-                <p className="text-sm leading-relaxed mb-6" style={{ color: '#8a8078' }}>
+                <h3 className="tqg-heading text-2xl mb-3" style={{ fontWeight: 500 }}>Root Word Analysis</h3>
+                <p className="text-sm leading-relaxed mb-6" style={{ color: 'var(--tqg-text-muted)' }}>
                   Explore how Arabic words derive from three-letter roots. See the morphological patterns that connect related words across the Quran.
                 </p>
                 <div style={{ background: 'rgba(184,152,63,0.04)', borderRadius: '10px', padding: '16px', textAlign: 'center' }}>
-                  <p className="learn-arabic text-2xl mb-2" style={{ color: '#B8983F' }}>ك - ت - ب</p>
-                  <p className="text-xs" style={{ color: '#8a8078' }}>Root: &quot;to write&quot; &rarr; book, writer, written, library...</p>
+                  <p className="tqg-arabic text-2xl mb-2" style={{ color: '#B8983F' }}>ك - ت - ب</p>
+                  <p className="text-xs" style={{ color: 'var(--tqg-text-muted)' }}>Root: &quot;to write&quot; &rarr; book, writer, written, library...</p>
                 </div>
               </div>
 
@@ -630,13 +435,13 @@ export default function LearnPage() {
                     <path d="M12 4v16M2 12h20"/>
                   </svg>
                 </div>
-                <h3 className="learn-heading text-2xl mb-3" style={{ fontWeight: 500 }}>Vocabulary Flashcards</h3>
-                <p className="text-sm leading-relaxed mb-6" style={{ color: '#8a8078' }}>
+                <h3 className="tqg-heading text-2xl mb-3" style={{ fontWeight: 500 }}>Vocabulary Flashcards</h3>
+                <p className="text-sm leading-relaxed mb-6" style={{ color: 'var(--tqg-text-muted)' }}>
                   Build your Quranic vocabulary one word at a time. Interactive flashcards with Arabic, transliteration, and meaning. Progress is saved locally.
                 </p>
                 <div style={{ background: 'rgba(184,152,63,0.04)', borderRadius: '10px', padding: '16px', textAlign: 'center' }}>
-                  <p className="learn-arabic text-xl mb-1" style={{ color: '#D4B85A' }}>رَحْمَةٌ</p>
-                  <p className="text-xs" style={{ color: '#8a8078' }}>Tap to flip &middot; {FLASHCARDS.length} words</p>
+                  <p className="tqg-arabic text-xl mb-1" style={{ color: '#D4B85A' }}>رَحْمَةٌ</p>
+                  <p className="text-xs" style={{ color: 'var(--tqg-text-muted)' }}>Tap to flip &middot; {FLASHCARDS.length} words</p>
                 </div>
               </div>
 
@@ -649,15 +454,15 @@ export default function LearnPage() {
                     <path d="M5.5 8H12M12 8h6.5"/>
                   </svg>
                 </div>
-                <h3 className="learn-heading text-2xl mb-3" style={{ fontWeight: 500 }}>Grammar Tags</h3>
-                <p className="text-sm leading-relaxed mb-6" style={{ color: '#8a8078' }}>
+                <h3 className="tqg-heading text-2xl mb-3" style={{ fontWeight: 500 }}>Grammar Tags</h3>
+                <p className="text-sm leading-relaxed mb-6" style={{ color: 'var(--tqg-text-muted)' }}>
                   See Arabic words broken down with grammatical analysis: nouns, verbs, particles, case markers, and morphological forms.
                 </p>
                 <div style={{ background: 'rgba(184,152,63,0.04)', borderRadius: '10px', padding: '16px', textAlign: 'center' }}>
                   <div className="flex items-center justify-center gap-2 flex-wrap">
                     <span className="learn-tag" style={{ background: 'rgba(107,163,214,0.12)', color: '#6BA3D6' }}>Harf</span>
                     <span className="learn-tag" style={{ background: 'rgba(212,180,74,0.12)', color: '#D4B44A' }}>Ism</span>
-                    <span className="learn-tag" style={{ background: 'rgba(232,146,91,0.12)', color: '#E8925B' }}>Fi'l</span>
+                    <span className="learn-tag" style={{ background: 'rgba(232,146,91,0.12)', color: '#E8925B' }}>Fi&apos;l</span>
                   </div>
                 </div>
               </div>
@@ -670,16 +475,16 @@ export default function LearnPage() {
           <section className="px-6 pb-32 relative z-10">
             <div className="max-w-4xl mx-auto">
               <button
-                className="learn-btn-ghost px-5 py-2 rounded-lg text-sm mb-10"
+                className="tqg-btn-ghost px-5 py-2 rounded-lg text-sm mb-10"
                 onClick={() => setActiveSection(null)}
               >
                 &larr; Back to sections
               </button>
 
-              <h2 className="learn-heading learn-gold-gradient text-3xl md:text-4xl mb-3" style={{ fontWeight: 400 }}>
+              <h2 className="tqg-heading tqg-gold-gradient text-3xl md:text-4xl mb-3" style={{ fontWeight: 400 }}>
                 Root Word Analysis
               </h2>
-              <p className="text-sm mb-8" style={{ color: '#8a8078' }}>
+              <p className="text-sm mb-8" style={{ color: 'var(--tqg-text-muted)' }}>
                 Most Arabic words derive from a three-letter root. Understanding roots unlocks the meaning of thousands of Quranic words.
               </p>
 
@@ -691,10 +496,10 @@ export default function LearnPage() {
                     className={`root-chip ${selectedRoot === i ? "active" : ""}`}
                     onClick={() => setSelectedRoot(i)}
                   >
-                    <span className="learn-arabic" style={{ fontSize: '16px', color: selectedRoot === i ? '#D4B85A' : '#B8983F', lineHeight: 1 }}>
+                    <span className="tqg-arabic" style={{ fontSize: '16px', color: selectedRoot === i ? '#D4B85A' : '#B8983F', lineHeight: 1 }}>
                       {r.root.split('-').join(' ')}
                     </span>
-                    <span style={{ color: selectedRoot === i ? '#D4B85A' : '#8a8078' }}>
+                    <span style={{ color: selectedRoot === i ? '#D4B85A' : 'var(--tqg-text-muted)' }}>
                       {r.meaning}
                     </span>
                   </button>
@@ -705,15 +510,15 @@ export default function LearnPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {ROOT_EXAMPLES[selectedRoot].derived.map((d, i) => (
                   <div key={i} className="grammar-word-card">
-                    <p className="learn-arabic text-3xl mb-2" style={{ color: '#F5E8B0', textAlign: 'center' }}>{d.word}</p>
-                    <p className="learn-heading text-base text-center mb-1" style={{ color: '#e5e5e5', fontWeight: 500 }}>{d.meaning}</p>
-                    <p className="text-xs text-center" style={{ color: '#8a8078' }}>{d.form}</p>
+                    <p className="tqg-arabic text-3xl mb-2" style={{ color: '#F5E8B0', textAlign: 'center' }}>{d.word}</p>
+                    <p className="tqg-heading text-base text-center mb-1" style={{ color: 'var(--tqg-text)', fontWeight: 500 }}>{d.meaning}</p>
+                    <p className="text-xs text-center" style={{ color: 'var(--tqg-text-muted)' }}>{d.form}</p>
                   </div>
                 ))}
               </div>
 
               <div className="mt-10 text-center" style={{ background: 'rgba(184,152,63,0.04)', borderRadius: '12px', padding: '20px', border: '1px solid rgba(184,152,63,0.08)' }}>
-                <p className="text-sm" style={{ color: '#8a8078' }}>
+                <p className="text-sm" style={{ color: 'var(--tqg-text-muted)' }}>
                   QUL Morphology integration coming soon. This will provide complete root analysis for every word in the Quran.
                 </p>
               </div>
@@ -726,14 +531,14 @@ export default function LearnPage() {
           <section className="px-6 pb-32 relative z-10">
             <div className="max-w-2xl mx-auto">
               <button
-                className="learn-btn-ghost px-5 py-2 rounded-lg text-sm mb-10"
+                className="tqg-btn-ghost px-5 py-2 rounded-lg text-sm mb-10"
                 onClick={() => setActiveSection(null)}
               >
                 &larr; Back to sections
               </button>
 
               <div className="flex items-center gap-4 mb-3 flex-wrap">
-                <h2 className="learn-heading learn-gold-gradient text-3xl md:text-4xl" style={{ fontWeight: 400 }}>
+                <h2 className="tqg-heading tqg-gold-gradient text-3xl md:text-4xl" style={{ fontWeight: 400 }}>
                   Vocabulary Flashcards
                 </h2>
                 {dueCount > 0 && (
@@ -743,7 +548,7 @@ export default function LearnPage() {
                     padding: '3px 12px',
                     borderRadius: '12px',
                     fontSize: '12px',
-                    fontFamily: "'Inter', sans-serif",
+                    fontFamily: "var(--font-inter), 'Inter', sans-serif",
                     fontWeight: 600,
                     letterSpacing: '0.03em',
                     border: '1px solid rgba(184,152,63,0.2)',
@@ -752,14 +557,14 @@ export default function LearnPage() {
                   </span>
                 )}
               </div>
-              <p className="text-sm mb-4" style={{ color: '#8a8078' }}>
+              <p className="text-sm mb-4" style={{ color: 'var(--tqg-text-muted)' }}>
                 Flip the card, then rate how well you knew the answer. Cards are scheduled using spaced repetition.
               </p>
 
               {/* Progress */}
               <div className="mb-8">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs" style={{ color: '#8a8078' }}>Progress</span>
+                  <span className="text-xs" style={{ color: 'var(--tqg-text-muted)' }}>Progress</span>
                   <span className="text-xs" style={{ color: '#D4B85A' }}>{knownCount} / {FLASHCARDS.length} known</span>
                 </div>
                 <div className="progress-bar-bg">
@@ -768,10 +573,10 @@ export default function LearnPage() {
               </div>
 
               {/* Card counter */}
-              <p className="text-xs text-center mb-4" style={{ color: '#8a8078' }}>
+              <p className="text-xs text-center mb-4" style={{ color: 'var(--tqg-text-muted)' }}>
                 Card {orderPos + 1} of {FLASHCARDS.length}
                 {sm2Data[FLASHCARDS[cardIdx].arabic] && (
-                  <span style={{ color: '#8a8078', marginLeft: '8px' }}>
+                  <span style={{ color: 'var(--tqg-text-muted)', marginLeft: '8px' }}>
                     {(() => {
                       const data = sm2Data[FLASHCARDS[cardIdx].arabic];
                       const isDue = !data || data.nextReview <= Date.now();
@@ -788,22 +593,22 @@ export default function LearnPage() {
                 <div className={`flashcard-inner ${flipped ? "flipped" : ""}`}>
                   {/* Front */}
                   <div className="flashcard-front">
-                    <p className="learn-arabic text-6xl md:text-7xl mb-4" style={{ color: '#F5E8B0' }}>
+                    <p className="tqg-arabic text-6xl md:text-7xl mb-4" style={{ color: '#F5E8B0' }}>
                       {FLASHCARDS[cardIdx].arabic}
                     </p>
-                    <p className="text-sm" style={{ color: '#8a8078', fontStyle: 'italic' }}>
+                    <p className="text-sm" style={{ color: 'var(--tqg-text-muted)', fontStyle: 'italic' }}>
                       Tap to reveal
                     </p>
                   </div>
                   {/* Back */}
                   <div className="flashcard-back">
-                    <p className="learn-arabic text-5xl md:text-6xl mb-4" style={{ color: '#F5E8B0' }}>
+                    <p className="tqg-arabic text-5xl md:text-6xl mb-4" style={{ color: '#F5E8B0' }}>
                       {FLASHCARDS[cardIdx].arabic}
                     </p>
-                    <p className="learn-heading text-2xl mb-2" style={{ color: '#D4B85A', fontWeight: 500 }}>
+                    <p className="tqg-heading text-2xl mb-2" style={{ color: '#D4B85A', fontWeight: 500 }}>
                       {FLASHCARDS[cardIdx].meaning}
                     </p>
-                    <p className="text-sm mb-1" style={{ color: '#8a8078', fontStyle: 'italic' }}>
+                    <p className="text-sm mb-1" style={{ color: 'var(--tqg-text-muted)', fontStyle: 'italic' }}>
                       {FLASHCARDS[cardIdx].transliteration}
                     </p>
                     <p className="text-xs" style={{ color: 'rgba(184,152,63,0.4)' }}>
@@ -829,7 +634,7 @@ export default function LearnPage() {
                         background: btn.bg,
                         border: `1px solid ${btn.border}`,
                         color: btn.color,
-                        fontFamily: "'Inter', sans-serif",
+                        fontFamily: "var(--font-inter), 'Inter', sans-serif",
                         fontWeight: 600,
                         fontSize: '13px',
                         letterSpacing: '0.03em',
@@ -852,7 +657,7 @@ export default function LearnPage() {
                   ))}
                 </div>
               ) : (
-                <p className="text-xs text-center mt-8" style={{ color: '#8a8078' }}>
+                <p className="text-xs text-center mt-8" style={{ color: 'var(--tqg-text-muted)' }}>
                   Flip the card to rate your recall
                 </p>
               )}
@@ -892,16 +697,16 @@ export default function LearnPage() {
           <section className="px-6 pb-32 relative z-10">
             <div className="max-w-4xl mx-auto">
               <button
-                className="learn-btn-ghost px-5 py-2 rounded-lg text-sm mb-10"
+                className="tqg-btn-ghost px-5 py-2 rounded-lg text-sm mb-10"
                 onClick={() => setActiveSection(null)}
               >
                 &larr; Back to sections
               </button>
 
-              <h2 className="learn-heading learn-gold-gradient text-3xl md:text-4xl mb-3" style={{ fontWeight: 400 }}>
+              <h2 className="tqg-heading tqg-gold-gradient text-3xl md:text-4xl mb-3" style={{ fontWeight: 400 }}>
                 Grammar Tags
               </h2>
-              <p className="text-sm mb-4" style={{ color: '#8a8078' }}>
+              <p className="text-sm mb-4" style={{ color: 'var(--tqg-text-muted)' }}>
                 Understanding Arabic grammar (Nahw and Sarf) is essential for comprehending the Quran. See how each word is analyzed.
               </p>
 
@@ -909,23 +714,23 @@ export default function LearnPage() {
               <div className="flex flex-wrap gap-3 mb-10">
                 <div className="flex items-center gap-2">
                   <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#D4B44A' }} />
-                  <span className="text-xs" style={{ color: '#8a8078' }}>Ism (Noun)</span>
+                  <span className="text-xs" style={{ color: 'var(--tqg-text-muted)' }}>Ism (Noun)</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#E8925B' }} />
-                  <span className="text-xs" style={{ color: '#8a8078' }}>Fi&apos;l (Verb)</span>
+                  <span className="text-xs" style={{ color: 'var(--tqg-text-muted)' }}>Fi&apos;l (Verb)</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#6BA3D6' }} />
-                  <span className="text-xs" style={{ color: '#8a8078' }}>Harf (Particle)</span>
+                  <span className="text-xs" style={{ color: 'var(--tqg-text-muted)' }}>Harf (Particle)</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#8BC6A0' }} />
-                  <span className="text-xs" style={{ color: '#8a8078' }}>Definite Article</span>
+                  <span className="text-xs" style={{ color: 'var(--tqg-text-muted)' }}>Definite Article</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#C97DB6' }} />
-                  <span className="text-xs" style={{ color: '#8a8078' }}>Affix / Pronoun</span>
+                  <span className="text-xs" style={{ color: 'var(--tqg-text-muted)' }}>Affix / Pronoun</span>
                 </div>
               </div>
 
@@ -936,8 +741,8 @@ export default function LearnPage() {
                     <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
                       {/* Arabic word */}
                       <div className="text-center md:text-right" style={{ minWidth: '140px' }}>
-                        <p className="learn-arabic text-4xl" style={{ color: '#F5E8B0' }}>{ex.arabic}</p>
-                        <p className="learn-heading text-sm mt-1" style={{ color: '#8a8078', fontStyle: 'italic' }}>{ex.meaning}</p>
+                        <p className="tqg-arabic text-4xl" style={{ color: '#F5E8B0' }}>{ex.arabic}</p>
+                        <p className="tqg-heading text-sm mt-1" style={{ color: 'var(--tqg-text-muted)', fontStyle: 'italic' }}>{ex.meaning}</p>
                       </div>
 
                       {/* Breakdown */}
@@ -946,7 +751,7 @@ export default function LearnPage() {
                           {ex.breakdown.map((b, j) => (
                             <div key={j} className="flex items-start gap-3">
                               <span
-                                className="learn-arabic text-xl"
+                                className="tqg-arabic text-xl"
                                 style={{ color: b.color, minWidth: '60px', textAlign: 'center' }}
                               >
                                 {b.part}
@@ -978,35 +783,27 @@ export default function LearnPage() {
         {!activeSection && (
           <section className="px-6 pb-16 relative z-10">
             <div className="max-w-md mx-auto text-center">
-              <div className="learn-divider max-w-xs mx-auto mb-8">
+              <div className="tqg-divider max-w-xs mx-auto mb-8" style={{ justifyContent: 'center', gap: '16px' }}>
+                <div className="tqg-line" style={{ background: 'linear-gradient(90deg, transparent, rgba(184,152,63,0.18))' }} />
                 <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
                   <rect x="1" y="1" width="6" height="6" transform="rotate(45 4 4)" stroke="#B8983F" strokeWidth="0.5" opacity="0.25"/>
                 </svg>
+                <div className="tqg-line" style={{ background: 'linear-gradient(90deg, rgba(184,152,63,0.18), transparent)' }} />
               </div>
-              <h3 className="learn-heading text-2xl mb-3" style={{ fontWeight: 400, color: '#e5e5e5' }}>
-                Test Your <span className="learn-gold-gradient">Knowledge</span>
+              <h3 className="tqg-heading text-2xl mb-3" style={{ fontWeight: 400, color: 'var(--tqg-text)' }}>
+                Test Your <span className="tqg-gold-gradient">Knowledge</span>
               </h3>
-              <p className="text-sm mb-6" style={{ color: '#8a8078' }}>
+              <p className="text-sm mb-6" style={{ color: 'var(--tqg-text-muted)' }}>
                 Practice what you&apos;ve learned with interactive quizzes on Quranic vocabulary, surahs, and ayahs.
               </p>
-              <a href="/quiz" className="learn-btn-filled px-8 py-3 rounded-xl text-sm inline-block" style={{ textDecoration: 'none' }}>
+              <Link href="/quiz" className="tqg-btn-filled px-8 py-3 rounded-xl text-sm inline-block">
                 Take a Quiz
-              </a>
+              </Link>
             </div>
           </section>
         )}
 
-        {/* ═══ FOOTER ═══ */}
-        <footer className="px-6 py-12 relative z-10" style={{ borderTop: '1px solid rgba(184,152,63,0.06)' }}>
-          <div className="max-w-6xl mx-auto">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-              <p className="text-xs" style={{ color: '#8a8078' }}>&copy; 2026 The Quran Guide</p>
-              <p className="learn-arabic text-sm" style={{ color: 'rgba(184,152,63,0.25)' }}>
-                رَبِّ زِدْنِي عِلْمًا
-              </p>
-            </div>
-          </div>
-        </footer>
+        <Footer variant="minimal" />
       </div>
     </>
   );

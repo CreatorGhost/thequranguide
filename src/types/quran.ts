@@ -24,6 +24,7 @@ export interface QWord {
   audio_url: string | null;
   char_type_name: "word" | "end";
   text_uthmani: string;
+  text_indopak: string;
   text: string;
   translation: { text: string; language_name: string } | null;
   transliteration: { text: string; language_name: string } | null;

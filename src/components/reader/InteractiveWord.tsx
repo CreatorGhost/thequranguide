@@ -22,7 +22,7 @@ export function InteractiveWord({ word, isActive, onClick, showTransliteration }
         className={`vd-iword ${isActive ? "active" : ""}`}
         onClick={onClick}
       >
-        {word.text_uthmani || word.text}
+        {word.text_indopak || word.text_uthmani || word.text}
         {showTransliteration && word.transliteration?.text && (
           <span className="vd-translit-inline">{word.transliteration.text}</span>
         )}

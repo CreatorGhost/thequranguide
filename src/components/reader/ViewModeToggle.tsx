@@ -34,7 +34,7 @@ export function ViewModeToggle({ mode, onChange, showTransliteration, onToggleTr
           title="Toggle transliteration"
           style={{
             padding: "6px 10px",
-            borderRadius: "8px",
+            borderRadius: "10px",
             fontSize: "11px",
             border: `1px solid ${showTransliteration ? "rgba(212,180,74,0.25)" : "rgba(212,180,74,0.12)"}`,
           }}

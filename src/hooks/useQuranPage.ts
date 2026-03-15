@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import type { Ayah, QVerse, SurahGroup, VersesGroup, AyahPlayData } from "@/types/quran";
 import { fetchPageArabic, fetchPageTranslation } from "@/lib/api/alquran-cloud";
-import { fetchPageWords } from "@/lib/api/quran-com";
+import { fetchPageWords, fetchPageIndoPak } from "@/lib/api/quran-com";
 
 export function useQuranPage(pageNum: number, onPageLoadStart?: () => void, translationLang = "en.sahih") {
   const [ayahs, setAyahs] = useState<Ayah[]>([]);
@@ -19,10 +19,17 @@ export function useQuranPage(pageNum: number, onPageLoadStart?: () => void, tran
       fetchPageArabic(pageNum),
       fetchPageWords(pageNum),
       fetchPageTranslation(pageNum, translationLang),
+      fetchPageIndoPak(pageNum),
     ])
-      .then(([arabicData, wordsData, transData]) => {
+      .then(([arabicData, wordsData, transData, indoPakMap]) => {
         if (cancelled) return;
-        setAyahs(arabicData);
+        // Overlay Indo-Pak text onto ayahs for correct script
+        const ayahsWithIndoPak = arabicData.map((ayah) => {
+          const key = `${ayah.surah.number}:${ayah.numberInSurah}`;
+          const indoPakText = indoPakMap.get(key);
+          return indoPakText ? { ...ayah, text: indoPakText } : ayah;
+        });
+        setAyahs(ayahsWithIndoPak);
         setVerses(wordsData);
         setEngTranslations(transData);
       })

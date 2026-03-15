@@ -127,7 +127,7 @@ export function WordByWordMode({
                           <div className="vd-word-card-speaker">
                             <SpeakerIcon size={10} />
                           </div>
-                          <div className="vd-word-arabic">{word.text_uthmani || word.text}</div>
+                          <div className="vd-word-arabic">{word.text_indopak || word.text_uthmani || word.text}</div>
                           {word.transliteration?.text && (
                             <div className="vd-word-translit">{word.transliteration.text}</div>
                           )}
